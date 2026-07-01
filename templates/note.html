@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ note.title }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="editor-container">
+        <a href="/" class="back-link">← All Notes</a>
+
+        <div class="editor-header">
+            <input type="text" id="title-input" value="{{ note.title }}" placeholder="Untitled Note">
+            <span class="status" id="status">
+                <span class="dot"></span> <span id="user-count">1</span> viewing
+            </span>
+        </div>
+
+        <textarea id="content-area" placeholder="Start typing...">{{ note.content }}</textarea>
+
+        <div class="save-indicator" id="save-indicator">Saved</div>
+    </div>
+
+    <script>
+        const noteId = "{{ note.id }}";
+        const socket = io();
+
+        const titleInput = document.getElementById('title-input');
+        const contentArea = document.getElementById('content-area');
+        const userCountEl = document.getElementById('user-count');
+        const saveIndicator = document.getElementById('save-indicator');
+
+        // Join this note's "room" on connect
+        socket.on('connect', () => {
+            socket.emit('join', { note_id: noteId });
+        });
+
+        // Leave room when tab closes
+        window.addEventListener('beforeunload', () => {
+            socket.emit('leave', { note_id: noteId });
+        });
+
+        // Sending changes (debounced so we don't spam the server)
+        let typingTimer;
+        contentArea.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            saveIndicator.textContent = 'Typing...';
+            typingTimer = setTimeout(() => {
+                socket.emit('content_change', {
+                    note_id: noteId,
+                    content: contentArea.value
+                });
+                saveIndicator.textContent = 'Saved';
+            }, 400);
+        });
+
+        titleInput.addEventListener('input', () => {
+            socket.emit('title_change', {
+                note_id: noteId,
+                title: titleInput.value
+            });
+        });
+
+        // Receiving changes from other users
+        socket.on('content_update', (data) => {
+            const cursorPos = contentArea.selectionStart;
+            contentArea.value = data.content;
+            // preserve approximate cursor position
+            contentArea.setSelectionRange(cursorPos, cursorPos);
+        });
+
+        socket.on('title_update', (data) => {
+            titleInput.value = data.title;
+        });
+
+        socket.on('user_count', (data) => {
+            userCountEl.textContent = data.count;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Collab Notes</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Collab Notes</h1>
+
+        <form action="/create" method="POST">
+            <button type="submit" class="btn-primary">+ New Note</button>
+        </form>
+
+        <div class="notes-grid">
+            {% for note in notes %}
+            <div class="note-card">
+                <a href="/note/{{ note.id }}">
+                    <h3>{{ note.title }}</h3>
+                    <p>{{ note.content[:80] or "Empty note..." }}{% if note.content|length > 80 %}...{% endif %}</p>
+                </a>
+                <div class="note-meta">
+                    <span>{{ note.updated_at.strftime('%b %d, %H:%M') }}</span>
+                    <form action="/delete/{{ note.id }}" method="POST" style="display:inline">
+                        <button type="submit" class="btn-delete">🗑</button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <p class="empty-state">No notes yet. Create one to get started.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
