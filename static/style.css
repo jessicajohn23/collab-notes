@@ -1,0 +1,48 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #e5e5e5; padding: 2rem; }
+.container, .editor-container { max-width: 900px; margin: 0 auto; }
+
+h1 { font-size: 2rem; margin-bottom: 1.5rem; }
+
+.btn-primary {
+    padding: 0.65rem 1.4rem; background: #7c3aed; color: #fff;
+    border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; margin-bottom: 2rem;
+}
+.btn-primary:hover { background: #6d28d9; }
+
+.notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.note-card {
+    background: #1a1a1a; border: 1px solid #333; border-radius: 12px;
+    padding: 1.2rem; transition: border-color 0.2s;
+}
+.note-card:hover { border-color: #7c3aed; }
+.note-card a { color: inherit; text-decoration: none; display: block; }
+.note-card h3 { margin-bottom: 0.5rem; color: #a78bfa; }
+.note-card p { font-size: 0.85rem; color: #999; line-height: 1.4; }
+.note-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; font-size: 0.75rem; color: #666; }
+.btn-delete { background: none; border: none; cursor: pointer; font-size: 0.9rem; opacity: 0.6; }
+.btn-delete:hover { opacity: 1; }
+.empty-state { color: #666; grid-column: 1 / -1; text-align: center; padding: 2rem; }
+
+/* Editor */
+.back-link { color: #a78bfa; text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 1rem; }
+
+.editor-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; gap: 1rem; }
+#title-input {
+    flex: 1; background: transparent; border: none; color: #fff;
+    font-size: 1.6rem; font-weight: 700; outline: none; padding: 0.3rem 0;
+    border-bottom: 2px solid transparent;
+}
+#title-input:focus { border-bottom-color: #7c3aed; }
+
+.status { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: #999; white-space: nowrap; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; display: inline-block; }
+
+#content-area {
+    width: 100%; min-height: 60vh; background: #1a1a1a; border: 1px solid #333;
+    border-radius: 12px; padding: 1.5rem; color: #e5e5e5; font-size: 1rem;
+    line-height: 1.6; resize: vertical; outline: none; font-family: inherit;
+}
+#content-area:focus { border-color: #7c3aed; }
+
+.save-indicator { margin-top: 0.6rem; font-size: 0.8rem; color: #666; text-align: right; }
