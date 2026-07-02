@@ -14,6 +14,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'dev-secret-key-change-this'
 db.init_app(app)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='gevent')
+with app.app_context():
+    db.create_all()
 
 # Track number of users viewing each note
 active_users = {}  # note_id: count
