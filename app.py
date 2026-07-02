@@ -3,11 +3,13 @@ monkey.patch_all()
 
 from flask import Flask, render_template, redirect, url_for
 from flask_socketio import SocketIO, join_room, emit
+from sqlalchemy.pool import NullPool
 from model import db, Note
 from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notes.db'
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'poolclass': NullPool}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'dev-secret-key-change-this'
 db.init_app(app)
