@@ -17,6 +17,11 @@ A real-time collaborative notes app built with Flask and Socket.IO. Multiple use
 - Real-time layer: Socket.IO (WebSockets)
 - Frontend: HTML, CSS, vanilla JavaScript
 
+## Live Demo
+
+[https://collaborative-notes-14s0.onrender.com](https://collaborative-notes-14s0.onrender.com)
+
+
 ## Getting Started
 
 ### Prerequisites
