@@ -52,6 +52,7 @@ Visit `http://localhost:5000`
 ## Project Structure
 
 collab-notes/
+
 ├── app.py   --> Flask routes and Socket.IO event handlers
 
 ├── models.py           --> SQLAlchemy Note model
